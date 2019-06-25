@@ -26,7 +26,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.kohsuke.MetaInfServices;
 
-import com.hazelcast.auditlog.LogUtils;
+import com.hazelcast.auditlog.AuditLogUtils;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -54,7 +54,7 @@ public class AuditLogAnnotationsProcessor extends AbstractProcessor {
             }
             TypeElement typeElement = (TypeElement) element;
             String className = typeElement.getSimpleName().toString();
-            Builder classBuilder = TypeSpec.classBuilder(className + LogUtils.GENERATED_CLASS_NAME_SUFFIX)
+            Builder classBuilder = TypeSpec.classBuilder(className + AuditLogUtils.GENERATED_CLASS_NAME_SUFFIX)
                     .addModifiers(Modifier.PUBLIC).addSuperinterface(TypeName.get(typeElement.asType()))
                     .addField(FieldSpec.builder(Logger.class, "LOGGER")
                             .addModifiers(Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL)

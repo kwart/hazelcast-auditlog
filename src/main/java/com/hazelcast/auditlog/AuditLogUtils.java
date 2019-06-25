@@ -1,6 +1,6 @@
 package com.hazelcast.auditlog;
 
-public class LogUtils {
+public class AuditLogUtils {
 
     public static final String GENERATED_CLASS_NAME_SUFFIX = "$Impl";
 
