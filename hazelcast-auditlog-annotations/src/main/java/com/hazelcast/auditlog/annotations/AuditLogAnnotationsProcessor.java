@@ -4,6 +4,7 @@ import static java.lang.Math.abs;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,7 +45,7 @@ public class AuditLogAnnotationsProcessor extends AbstractProcessor {
         if (roundEnv.processingOver()) {
             return false;
         }
-
+        Set<Integer> codes = new HashSet<>();
         Elements elements = processingEnv.getElementUtils();
 
         for (Element element : roundEnv.getElementsAnnotatedWith(AuditMessages.class)) {
@@ -66,6 +67,11 @@ public class AuditLogAnnotationsProcessor extends AbstractProcessor {
                     if (msg == null) {
                         processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR,
                                 "Method is missing @Message annotation: " + executable);
+                        continue;
+                    }
+                    if (!codes.add(msg.code())) {
+                        processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR,
+                                "Duplicate code (" + msg.code() + ") detected in @Message annotation for method: " + executable);
                         continue;
                     }
                     MethodSpec.Builder methodBuilder = MethodSpec.overriding(executable);
