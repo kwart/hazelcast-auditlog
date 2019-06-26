@@ -59,7 +59,7 @@ public class AuditLogAnnotationsProcessor extends AbstractProcessor {
                     .addModifiers(Modifier.PUBLIC).addSuperinterface(TypeName.get(typeElement.asType()))
                     .addField(FieldSpec.builder(Logger.class, "LOGGER")
                             .addModifiers(Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL)
-                            .initializer("$T.getFormatterLogger($S)", LogManager.class, "com.hazelcast.auditlog").build());
+                            .initializer("$T.getFormatterLogger($S)", LogManager.class, AuditLogUtils.AUDITLOG_CATEGORY).build());
             for (Element enclosed : typeElement.getEnclosedElements()) {
                 if (enclosed.getKind() == ElementKind.METHOD) {
                     ExecutableElement executable = (ExecutableElement) enclosed;
